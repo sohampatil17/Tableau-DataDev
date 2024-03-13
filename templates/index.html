@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Data Input</title>
+    <title>Tableaufy.ai</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
-            background-color: black;
-            color: white;
-            text-align: center;
-            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
             height: 100vh;
             display: flex;
             flex-direction: column;
@@ -16,31 +14,101 @@
             margin: 0;
         }
 
-        textarea, input[type="submit"] {
-            margin: 10px 0;
+        .container {
+            width: 100%;
+            max-width: 700px;
+            padding: 30px;
+            margin: 0 auto;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+            border-radius: 8px;
         }
 
-        #processing {
-            display: none;
+        .spinner-border {
+            width: 2rem;
+            height: 2rem;
+        }
+
+        .url-area {
+            word-break: break-all;
+            margin-top: 15px;
+            padding: 10px;
+            border: 1px solid #dcdcdc;
+            border-radius: 5px;
+            background-color: #f7f7f7;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .processed-textarea {
+            background-color: #e9ecef;
+            color: #495057;
         }
     </style>
 </head>
 <body>
-    <div>
-        <h1>Enter Your Text</h1>
-        <form method="post" onsubmit="showProcessing()">
-            <textarea name="input_text" rows="12" cols="70"></textarea><br>
-            <input type="submit" value="Submit">
+    <div class="container">
+        <h1 class="text-center mb-4">Turn Text into Tableau - Begin Here!</h1>
+        <form method="post" onsubmit="showSpinner()">
+            <div class="mb-3">
+                <textarea name="input_text" class="form-control processed-textarea" rows="9" id="inputText">{{ input_text or '' }}</textarea>
+            </div>
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">Show Me Magic! 🪄🪄</button>
+            </div>
         </form>
-        <p id="processing" style="display: {{ 'block' if processing else 'none' }}">Processing...</p>
-        {% if workbook_url %}
-            <p><a href="{{ workbook_url }}" target="_blank">{{ workbook_url }}</a></p>
-        {% endif %}
+        <div id="spinner" class="text-center" style="display: none;">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
     </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="resultModal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg"> <!-- Use modal-lg or modal-xl for larger modals -->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-center w-100" id="modalLabel">✨ Your Tableau Visualization ✨</h5> <!-- w-100 class to make title take full width -->
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center url-area"> <!-- text-center to center the modal body text -->
+                    {% if workbook_url %}
+                        <a href="{{ workbook_url }}" target="_blank">{{ workbook_url }}</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        function showProcessing() {
-            document.getElementById('processing').style.display = 'block';
+        function showSpinner() {
+            document.getElementById('spinner').style.display = 'block';
+            document.getElementById('inputText').readOnly = true;
         }
+
+        function showModal() {
+            var resultModal = new bootstrap.Modal(document.getElementById('resultModal'), {
+                keyboard: false,
+                backdrop: 'static'
+            });
+            resultModal.show();
+        }
+
+        document.getElementById('resultModal').addEventListener('shown.bs.modal', function () {
+            document.getElementById('spinner').style.display = 'none';
+        });
+
+        {% if workbook_url %}
+            window.onload = function() {
+                showModal();
+            };
+        {% endif %}
+
+    
     </script>
 </body>
 </html>

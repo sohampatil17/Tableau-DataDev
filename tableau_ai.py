@@ -14,7 +14,7 @@ def update_tableau_workbook(csv_content):
                 csvwriter.writerow(cleaned_line.split(','))
 
     # Authenticate with the Tableau server
-    tableau_auth = TSC.TableauAuth('email', 'pass', site_id='sohampatilai5401868afb')
+    tableau_auth = TSC.TableauAuth('sohampatil.ai@gmail.com', 'Soham123@', site_id='sohampatilai5401868afb')
     server = TSC.Server('https://prod-useast-b.online.tableau.com')
 
     with server.auth.sign_in(tableau_auth):
@@ -50,7 +50,8 @@ def update_tableau_workbook(csv_content):
         # Modify this based on how you want to generate/view the URL
         workb_url = f"https://prod-useast-b.online.tableau.com/t/sohampatilai5401868afb/authoring/{published_workbook.id}/Sheet1#1"
     
-    return workb_url
+    updated_url = "https://prod-useast-b.online.tableau.com/t/sohampatilai5401868afb/authoring/soham_workbook/Sheet1#1"
+    return updated_url
 
 
 
