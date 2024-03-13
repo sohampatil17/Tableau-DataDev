@@ -3,7 +3,7 @@ from tableau_api_lib import TableauServerConnection
 import zipfile, os, shutil
 
 # Authenticate with the Tableau server
-tableau_auth = TSC.TableauAuth('user', 'pass', site_id='sohampatilai5401868afb')
+tableau_auth = TSC.TableauAuth('email', 'pass', site_id='sohampatilai5401868afb')
 server = TSC.Server('https://prod-useast-b.online.tableau.com')
 
 with server.auth.sign_in(tableau_auth):
@@ -55,8 +55,8 @@ with server.auth.sign_in(tableau_auth):
     workbook_url = "https://prod-useast-b.online.tableau.com/t/sohampatilai5401868afb/authoring/soham_workbook/Sheet1#1"
     print(f"Workbook published. You can view it at: {workbook_url}")
 
-    workbook_view_url = get_workbook_view_url(server, published_workbook)
-    print(f"View the workbook at: {workbook_view_url}")
+    # workbook_view_url = get_workbook_view_url(server, published_workbook)
+    # print(f"View the workbook at: {workbook_view_url}")
 
 # # Finding workbook IDs and Project IDs
 
