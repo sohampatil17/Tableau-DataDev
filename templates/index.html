@@ -2,13 +2,45 @@
 <html>
 <head>
     <title>Data Input</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            text-align: center;
+            font-family: Arial, sans-serif;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+        }
+
+        textarea, input[type="submit"] {
+            margin: 10px 0;
+        }
+
+        #processing {
+            display: none;
+        }
+    </style>
 </head>
 <body>
-    <h1>Enter Your Text</h1>
-    <form method="post">
-        <textarea name="input_text" rows="10" cols="50"></textarea>
-        <br>
-        <input type="submit" value="Submit">
-    </form>
+    <div>
+        <h1>Enter Your Text</h1>
+        <form method="post" onsubmit="showProcessing()">
+            <textarea name="input_text" rows="12" cols="70"></textarea><br>
+            <input type="submit" value="Submit">
+        </form>
+        <p id="processing" style="display: {{ 'block' if processing else 'none' }}">Processing...</p>
+        {% if workbook_url %}
+            <p><a href="{{ workbook_url }}" target="_blank">{{ workbook_url }}</a></p>
+        {% endif %}
+    </div>
+    <script>
+        function showProcessing() {
+            document.getElementById('processing').style.display = 'block';
+        }
+    </script>
 </body>
 </html>
