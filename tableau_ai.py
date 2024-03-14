@@ -3,7 +3,15 @@ import tableauserverclient as TSC
 from tableau_api_lib import TableauServerConnection
 import csv
 
-def update_tableau_workbook(csv_content):
+chart_type_to_url = {
+    "piechart": "https://prod-useast-b.online.tableau.com/t/sohampatilai5401868afb/authoring/piechart_workbook/Sheet1#1",
+    "bargraph": "https://prod-useast-b.online.tableau.com/t/sohampatilai5401868afb/authoring/bargraph_workbook/Sheet1#1",
+    "bubbles": "https://prod-useast-b.online.tableau.com/t/sohampatilai5401868afb/authoring/bubbles_workbook/Sheet1#1",
+    "map": "https://prod-useast-b.online.tableau.com/t/sohampatilai5401868afb/authoring/map_workbook/Sheet1#1",
+    "linegraph": "https://prod-useast-b.online.tableau.com/t/sohampatilai5401868afb/authoring/linegraph_workbook/Sheet1#1"
+}
+
+def update_tableau_workbook(csv_content, workbook_id, chart_type):
     # Save the CSV content to a file
     csv_file_path = 'data_source.csv'
     with open(csv_file_path, 'w', newline='') as csvfile:
@@ -19,7 +27,7 @@ def update_tableau_workbook(csv_content):
 
     with server.auth.sign_in(tableau_auth):
         # Download the workbook
-        file_path = server.workbooks.download('0fcf1b3b-1c77-4f54-8e2f-c9d135e60265')
+        file_path = server.workbooks.download(workbook_id)
 
         # Extract the workbook content
         with zipfile.ZipFile(file_path, 'r') as zip_ref:
@@ -43,15 +51,15 @@ def update_tableau_workbook(csv_content):
 
     # Publish the modified workbook
     with server.auth.sign_in(tableau_auth):
-        new_workbook = TSC.WorkbookItem(name='soham_workbook', project_id='f482dbe9-85a6-487a-814b-98bedb08647f')
+        workbook_name = f"{chart_type}_workbook"
+        new_workbook = TSC.WorkbookItem(name=workbook_name, project_id='f482dbe9-85a6-487a-814b-98bedb08647f')
         published_workbook = server.workbooks.publish(new_workbook, new_workbook_path, 'Overwrite')
 
         # Construct the URL to view the updated workbook
         # Modify this based on how you want to generate/view the URL
         workb_url = f"https://prod-useast-b.online.tableau.com/t/sohampatilai5401868afb/authoring/{published_workbook.id}/Sheet1#1"
     
-    updated_url = "https://prod-useast-b.online.tableau.com/t/sohampatilai5401868afb/authoring/soham_workbook/Sheet1#1"
-    return updated_url
+    return chart_type_to_url[chart_type]
 
 
 
@@ -120,3 +128,4 @@ def update_tableau_workbook(csv_content):
 # #     # Print the IDs, names, and project IDs of the workbooks
 # #     for workbook in all_workbooks_items:
 # #         print(f"Workbook ID: {workbook.id}, Workbook Name: {workbook.name}, Project ID: {workbook.project_id}")
+

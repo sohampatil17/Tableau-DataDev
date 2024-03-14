@@ -46,11 +46,25 @@
             background-color: #e9ecef;
             color: #495057;
         }
+
+        .modal-body.url-area {
+            padding: 1.5rem;
+            font-size: 0.9em; /* Adjust font size if necessary */
+        }
+        
+        /* Ensure the link does not break onto multiple lines */
+        .modal-body.url-area a {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: block;
+            max-width: 100%;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1 class="text-center mb-4">Turn Text into Tableau - Begin Here!</h1>
+        <h2 class="text-center mb-4">Turn Plain English into Tableau - Begin Here!</h2>
         <form method="post" onsubmit="showSpinner()">
             <div class="mb-3">
                 <textarea name="input_text" class="form-control processed-textarea" rows="9" id="inputText">{{ input_text or '' }}</textarea>
@@ -71,7 +85,7 @@
         <div class="modal-dialog modal-dialog-centered modal-lg"> <!-- Use modal-lg or modal-xl for larger modals -->
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title text-center w-100" id="modalLabel">✨ Your Tableau Visualization ✨</h5> <!-- w-100 class to make title take full width -->
+                    <h5 class="modal-title text-center w-100" id="modalLabel">Your Tableau Visualization 🎉🎉</h5> <!-- w-100 class to make title take full width -->
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body text-center url-area"> <!-- text-center to center the modal body text -->
